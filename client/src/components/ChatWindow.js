@@ -1,77 +1,77 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setFlash } from '../actions/flash';
-import { addMessage, fetchMessages } from '../actions/messages';
+import { setFlash }  from '../actions/flash';
 import ChatMessage from './ChatMessage';
 import { Segment, Header, Form, TextArea, Button } from 'semantic-ui-react';
 import axios from 'axios';
+import { fetchMessages, addMessage } from '../actions/messages';
 
 class ChatWindow extends Component {
-  state = { newMessage: '', loaded: false }
+  state = { newMessage: '', loaded: false };
 
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(fetchMessages())
+    const { dispatch } = this.props;
+    dispatch(fetchMessages());
     window.MessageBus.start();
 
-    dispatch(setFlash('Welcome to the React Chat', 'green'))
-
+    dispatch(setFlash('Welcome To React Chat!', 'green'));
+    
     window.MessageBus.subscribe("/chat_channel", (data) => {
-      dispatch(addMessage(data))
-    })
+      dispatch(addMessage(data));
+    });
   }
 
   componentWillUnmount() {
-    window.MessageBus.unsubscribe('/chat_channel')
+    window.MessageBus.unsubscribe('/chat_channel');
   }
 
   displayMessages = () => {
     let { messages } = this.props;
 
-    if(messages.length){
+    if(messages.length)
       return messages.map( (message, i) => {
         return(<ChatMessage key={i} message={message} />)
-      })}
+      })
     else
       return(
         <Segment inverted textAlign='center'>
-          <Header as='h1'>No Messages Yet.</Header>
+          <Header as='h1'>No Chat Messages Yet.</Header>
         </Segment>
       )
   }
 
   setMessage = (e) => {
-    this.setState({ newMessage: e.target.value})
+    this.setState({ newMessage: e.target.value })
   }
 
   addMessage = (e) => {
     e.preventDefault();
-    let { dispatch, user: { email } } = this.props;
-
+    let { dispatch, user: {email } } = this.props;
+    
     axios.post('/api/messages', { email, body: this.state.newMessage })
       .then(res => {
-        this.setState({ newMessage: ''});
+        this.setState({ newMessage: '' });
       })
-      .catch( error => {
-        dispatch(setFlash('error posting message', 'red'))
-      })
+      .catch(error => {
+        dispatch(setFlash('Error posting message.', 'error'));
+      });
   }
 
   render() {
     return(
       <Segment basic>
-        <Header as='h2' textAlign='center' style={styles.underline} > React Chat!</Header>
-        <Segment basic style={styles.mainWindow}>
+        <Header as='h2' textAlign='center' style={ styles.underline }> React Chat!</Header>
+        <Segment basic style={ styles.mainWindow }>
           <Segment basic>
             { this.displayMessages() }
           </Segment>
         </Segment>
-        <Segment style={styles.messageInput}>
-          <Form onSubmit={ this.addMessage}>
+        <Segment style={ styles.messageInput }>
+          <Form onSubmit={ this.addMessage }>
             <TextArea
               value={ this.state.newMessage }
               onChange={ this.setMessage }
-              placeholder='Write Chat here'
+              placeholder='Write Your Chat Message Here.'
               autoFocus
               required
             >

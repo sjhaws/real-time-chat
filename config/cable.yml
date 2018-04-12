@@ -7,4 +7,4 @@ test:
 production:
   adapter: redis
   url: redis://localhost:6379/1
-  channel_prefix: react-chat_production
+  channel_prefix: react-chat-dry-run_production

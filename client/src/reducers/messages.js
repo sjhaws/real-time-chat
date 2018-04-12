@@ -1,10 +1,10 @@
 const messages = ( state = [], action ) => {
-  switch ( action.type ) {
+  switch (action.type) {
     case 'FETCH_MESSAGES':
-      return action.messages
+      return action.messages;
     case 'ADD_MESSAGE':
       return [...state, action.message]
-    default: 
+    default:
       return state;
   }
 }

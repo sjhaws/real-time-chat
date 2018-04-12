@@ -5,7 +5,7 @@ import messages from './messages';
 
 const rootReducer = combineReducers({
   user,
-  flash,
+  flash, 
   messages
 });
 

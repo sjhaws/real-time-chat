@@ -5,11 +5,11 @@ import Login from './Login';
 import Register from './Register';
 import Flash from './Flash';
 import Home from './Home';
+import ChatWindow from './ChatWindow';
 import ProtectedRoute from './ProtectedRoute';
 import AuthRoute from './AuthRoute';
 import FetchUser from './FetchUser';
 import { Switch, Route } from 'react-router-dom';
-import ChatWindow from './ChatWindow';
 
 class App extends Component {
   render() {
